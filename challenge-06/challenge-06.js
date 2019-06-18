@@ -5,6 +5,7 @@ Declare uma variável chamada `championship` que receberá o nome do campeonato,
 e imprima o nome desse campeonato no console.
 */
 championship = "Brasileiro";
+console.log(championship);
 
 /*
 Declare uma variável chamada `teams`, que receberá um array com 5 elementos.
@@ -33,7 +34,7 @@ Crie uma função chamada `showTeamPosition` com as seguintes características:
     "Não temos a informação do time que está nessa posição."
 */
 function showTeamPosition(posicao) {
-  if (posicao > teams.length) {
+  if (posicao < 1 || posicao > 5) {
     return console.log("Não temos a informação do time que está nessa posição.");
   } else {
     return console.log(`O time que está em ${posicao}º lugar é o ${teams[posicao - 1]}`);
