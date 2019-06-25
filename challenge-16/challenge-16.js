@@ -58,29 +58,31 @@
     5 nomes foi somente uma sugestão ;)
     */
     console.log( '\nMeus amigos:' );
-    var names = ['Eduardo', 'Sarah', 'Pedro', 'Pitico', 'Timber'];
+    var names = ['Sarah', 'Pitico', 'Timber', 'Odin', 'Bonnie'];
     console.log(names);
 
     function isMyFriends(names) {
-        names.reduce(function(previous, item, index, array) {
-            return previous + ' ' + item;
+        return names.reduce(function(previous, item, index, array) {
+            var separator = array.length - 1 === index ? ' e ' : ' , ';
+            return previous + separator + item;
         });
     };
-
-    isMyFriends(names);
+    console.log(isMyFriends(names).concat(' são meus amigos.'));
 
     /*
     Usando o replace(), faça a string "Roberto" virar "Roberta".
     Mostre o resultado no console.
     */
     console.log( '\nEra "Roberto", agora é:' );
-    // ?
+    var name = 'Roberto';
+    console.log(name.substring(0, name.length - 1) + name.substring(name.length - 1, name.length).replace('o', 'a'));
 
     /*
     Mostre no console a parte "nando" da string "Fernando". Use o método que
     faz a busca do final para o início da string.
     */
     console.log( '\nParte de uma string:' );
+    console.log('Fernando'.substring(8, 3));
     // ?
 
     /*
@@ -93,5 +95,18 @@
     Ex.: Nomes que deveriam funcionar: "Fernando", "RoBertO", "gabriEla", etc.
     */
     console.log( '\nNome com letras intercaladas entre caixa alta e baixa:' );
-    // ?
+    var myName = 'Eduardo';
+    console.log(converToCamelCase(myName))
+
+    function converToCamelCase(stringToConvert) {
+        var convertedString = '';
+        for(var counter = 0; counter < stringToConvert.length; counter++){
+            if ( counter % 2 === 0) {
+                convertedString += stringToConvert[counter].toUpperCase();
+            } else {
+                convertedString += stringToConvert[counter];
+            }
+        }
+        return convertedString;
+    };
 })();
