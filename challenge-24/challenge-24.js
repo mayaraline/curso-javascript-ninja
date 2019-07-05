@@ -10,20 +10,33 @@ listeners de eventos, etc);
 mesma funcionalidade.
 */
 
+// Attributes;
 var $visor = document.querySelector('[data-js="visor"]');
 var $buttonsNumbers = document.querySelectorAll('[data-js="button-number"]');
-var $buttonsOperations = document.querySelectorAll('[data-js="button-operation"]');
+var $buttonsOperations = document.querySelectorAll(
+  '[data-js="button-operation"]'
+);
 var $buttonCE = document.querySelector('[data-js="button-ce"]');
 var $buttonEqual = document.querySelector('[data-js="button-equal"]');
 
-Array.prototype.forEach.call($buttonsNumbers, function(button) {
-  button.addEventListener('click', handleClickNumber, false);
-});
-Array.prototype.forEach.call($buttonsOperations, function(button) {
-  button.addEventListener('click', handleClickOperation, false);
-});
-$buttonCE.addEventListener('click', handleClickCE, false);
-$buttonEqual.addEventListener('click', handleClickEqual, false);
+// Initializations
+(function buttonEventsIntializer() {
+  Array.prototype.forEach.call($buttonsNumbers, function(button) {
+    handleClickEvent(button, handleClickNumber);
+  });
+
+  Array.prototype.forEach.call($buttonsOperations, function(button) {
+    handleClickEvent(button, handleClickOperation);
+  });
+
+  handleClickEvent($buttonCE, handleClickCE);
+  handleClickEvent($buttonEqual, handleClickEqual);
+})();
+
+// Methods
+function handleClickEvent(context, callback) {
+  context.addEventListener("click", callback, false);
+}
 
 function handleClickNumber() {
   $visor.value += this.value;
@@ -39,16 +52,16 @@ function handleClickCE() {
 }
 
 function isLastItemAnOperation(number) {
-  var operations = ['+', '-', 'x', '÷'];
-  var lastItem = number.split('').pop();
+  var operations = ["+", "-", "x", "÷"];
+  var lastItem = getLastCaracter(number);
   return operations.some(function(operator) {
     return operator === lastItem;
   });
 }
 
 function removeLastItemIfItIsAnOperator(number) {
-  if(isLastItemAnOperation(number)) {
-    return number.slice(0, -1);
+  if (isLastItemAnOperation(number)) {
+    return removeCaracter(number);
   }
   return number;
 }
@@ -56,20 +69,52 @@ function removeLastItemIfItIsAnOperator(number) {
 function handleClickEqual() {
   $visor.value = removeLastItemIfItIsAnOperator($visor.value);
   var allValues = $visor.value.match(/\d+[+x÷-]?/g);
-  $visor.value = allValues.reduce(function(accumulated, actual) {
-    var firstValue = accumulated.slice(0, -1);
-    var operator = accumulated.split('').pop();
-    var lastValue = removeLastItemIfItIsAnOperator(actual);
-    var lastOperator = isLastItemAnOperation(actual) ? actual.split('').pop() : '';
-    switch(operator) {
-      case '+':
-        return ( Number(firstValue) + Number(lastValue) ) + lastOperator;
-      case '-':
-        return ( Number(firstValue) - Number(lastValue) ) + lastOperator;
-      case 'x':
-        return ( Number(firstValue) * Number(lastValue) ) + lastOperator;
-      case '÷':
-        return ( Number(firstValue) / Number(lastValue) ) + lastOperator;
-    }
-  });
+  $visor.value = allValues.reduce(serieCalculation);
+}
+
+function serieCalculation(previous, actual) {
+  var firstValue = removeCaracter(previous);
+  var operator = getLastCaracter(previous);
+  var lastValue = removeLastItemIfItIsAnOperator(actual);
+  var lastOperator = isLastItemAnOperation(actual)
+    ? getLastCaracter(actual)
+    : "";
+  return executeOperation(operator, firstValue, lastValue) + lastOperator;
+}
+
+function getLastCaracter(string) {
+  return string.split("").pop();
+}
+
+function removeCaracter(string) {
+  return string.slice(0, -1);
+}
+
+function sum(num1, num2) {
+  return Number(num1) + Number(num2);
+}
+
+function sub(num1, num2) {
+  return Number(num1) - Number(num2);
+}
+
+function mul(num1, num2) {
+  return Number(num1) * Number(num2);
+}
+
+function div(num1, num2) {
+  return Number(num1) / Number(num2);
+}
+
+function executeOperation(operator, num1, num2) {
+  switch (operator) {
+    case "+":
+      return sum(num1, num2);
+    case "-":
+      return sub(num1, num2);
+    case "x":
+      return mul(num1, num2);
+    case "÷":
+      return div(num1, num2);
+  }
 }
