@@ -58,7 +58,7 @@ input;
 
   function clickOperation() {
     if (!!lastItemIsAnOperator()) {
-      removeOperator();
+      $inputDisplay.value = removeOperator($inputDisplay.value);
     }
     $inputDisplay.value += this.value;
   }
@@ -69,11 +69,21 @@ input;
 
   function clickEqual() {
     var regexp = /(\d+)[+\-*\/]?/g;
+    var operationRegex = /[+\-*\/]/g;
+    var numberRegex = /(\d+)/g;
     var values = $inputDisplay.value.match(regexp);
 
+    console.log('Values: ', values);
+    console.log('Tamanho Values: ', values.length);
+    var lastItem = values[values.length - 1];
+
+    console.log('Match: ', !!lastItem.match(operationRegex));
+
+    if (!!lastItem.match(operationRegex)){
+      values[values.length - 1] = removeOperator(lastItem);
+    }
+
     $inputDisplay.value = values.reduce(function(previous, actual) {
-			var operationRegex = /[+\-*\/]/g;
-      var numberRegex = /(\d+)/g;
 
       var firstOperator = previous.match(operationRegex)[0];
       var lastOperator = !!actual.match(operationRegex) ? actual.match(operationRegex)[0] : "";
@@ -93,11 +103,8 @@ input;
     });
   }
 
-  function removeOperator() {
-    $inputDisplay.value = $inputDisplay.value.slice(
-      0,
-      $inputDisplay.value.length - 1
-    );
+  function removeOperator(string) {
+    return string.slice(0, string.length - 1);
   }
 
   function lastItemIsAnOperator() {
