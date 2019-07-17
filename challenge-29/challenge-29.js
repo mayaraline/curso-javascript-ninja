@@ -7,7 +7,7 @@
   A primeira etapa vai ser o cadastro de veículos, de deverá funcionar da
   seguinte forma:
   - No início do arquivo, deverá ter as informações da sua empresa - nome e
-  telefone (já vamos ver como isso vai ser feito)
+  telefone (já vamos ver como isso vai ser feito) OK!
   - Ao abrir a tela, ainda não teremos carros cadastrados. Então deverá ter
   um formulário para cadastro do carro, com os seguintes campos:
     - Imagem do carro (deverá aceitar uma URL)
@@ -35,5 +35,11 @@
   E aqui nesse arquivo, faça a lógica para cadastrar os carros, em um módulo
   que será nomeado de "app".
   */
+
+  function app() {
+    
+  }
+
+  window.app = app;
 
 })();
