@@ -37,9 +37,21 @@
   */
 
   function app() {
-    
+
+    var $companyName = document.querySelector('[data-js="company-name"]');
+    var $companyPhone = document.querySelector('[data-js="company-phone"]');
+
+    function getCompanyData() {
+      
+    }
+
+    return (
+      console.log($companyName),
+      console.log($companyPhone)
+    )
   }
 
   window.app = app;
 
 })();
+window.app();
