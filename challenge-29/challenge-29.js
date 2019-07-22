@@ -45,17 +45,7 @@
 
     // Inputs
     var inputs = [];
-    var $inputImagem = DOM('[data-js="input-url-image"]').get();
-    var $inputMarcaModelo = DOM('[data-js="input-marca-modelo"]').get();
-    var $inputAno = DOM('[data-js="input-ano"]').get();
-    var $inputPlaca = DOM('[data-js="input-placa"]').get();
-    var $inputCor = DOM('[data-js="input-cor"]').get();
-
-    inputs.push($inputImagem);
-    inputs.push($inputMarcaModelo);
-    inputs.push($inputAno);
-    inputs.push($inputPlaca);
-    inputs.push($inputCor);
+    inputs = DOM('input');
 
     // Button
     var $btnCadastrar = DOM('[data-js="btn-cadastrar"]').on(
@@ -116,7 +106,6 @@
     }
 
     return getCompanyData();
-    // handleClickCadastrar()
   }
 
   window.app = app;
