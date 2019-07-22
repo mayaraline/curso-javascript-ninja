@@ -40,14 +40,36 @@
 
     var $companyName = document.querySelector('[data-js="company-name"]');
     var $companyPhone = document.querySelector('[data-js="company-phone"]');
+    var url_base = './company.json';
+
+    // Inputs
+    var $inputImagem = document.querySelector('[data-js="input-url-image"]');
+    var $inputMarcaModelo = document.querySelector('[data-js="input-marca-modelo"]');
+    var $inputAno = document.querySelector('[data-js="input-ano"]');
+    var $inputPlaca = document.querySelector('[data-js="input-placa"]');
+    var $inputCor = document.querySelector('[data-js="input-cor"]');
+
+    // Button
+    var $btnCadastrar = document.querySelector('[data-js="btn-cadastrar"]');
 
     function getCompanyData() {
-      
+      var ajax = new XMLHttpRequest();
+      ajax.open('GET', url_base);
+      ajax.send();
+
+      ajax.addEventListener('readystatechange', function() {
+        if (ajax.status === 200 && ajax.readyState === 4) {
+          var data = JSON.parse(ajax.responseText);
+          $companyName.textContent = data.name;
+          $companyPhone.textContent = data.phone;
+        }
+      });
     }
 
     return (
       console.log($companyName),
-      console.log($companyPhone)
+      console.log($companyPhone),
+      getCompanyData()
     )
   }
 

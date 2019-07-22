@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Challenge 29</title>
-    </head>
-    <body>
-        <h1 data-js="company-name"></h1>
-        <h2 data-js="company-phone"></h2>
-        <script src="./challenge-29.js"></script>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Challenge 29</title>
+  </head>
+  <body>
+    <!-- Header -->
+    <div>
+      <h1 data-js="company-name"></h1>
+      <h2 data-js="company-phone"></h2>
+    </div>
+
+    <!-- Formulário -->
+    <form>
+      <div>
+        <label>URL da Imagem: <input data-js="input-url-image" value="" /></label>
+        <label>Marca/Modelo: <input data-js="input-marca-modelo" value="" /></label>
+      </div>
+      <div>
+        <label>Ano: <input data-js="input-ano" value=""/></label>
+        <label>Placa: <input data-js="input-placa" value=""/></label>
+        <label>Cor: <input data-js="input-cor" value=""/></label>
+      </div>
+
+      <div>
+        <button data-js="btn-cadastrar">Cadastrar</button>
+      </div>
+    </form>
+
+    <!-- Tabela -->
+
+    <script src="./challenge-29.js"></script>
+  </body>
 </html>
