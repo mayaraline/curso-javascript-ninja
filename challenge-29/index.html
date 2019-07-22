@@ -14,8 +14,12 @@
     <!-- Formulário -->
     <form>
       <div>
-        <label>URL da Imagem: <input data-js="input-url-image" value="" /></label>
-        <label>Marca/Modelo: <input data-js="input-marca-modelo" value="" /></label>
+        <label
+          >URL da Imagem: <input data-js="input-url-image" value=""
+        /></label>
+        <label
+          >Marca/Modelo: <input data-js="input-marca-modelo" value=""
+        /></label>
       </div>
       <div>
         <label>Ano: <input data-js="input-ano" value=""/></label>
@@ -29,7 +33,20 @@
     </form>
 
     <!-- Tabela -->
+    <table>
+      <thead>
+        <tr>
+          <th>Imagem</th>
+          <th>Marca/Modelo</th>
+          <th>Ano</th>
+          <th>Placa</th>
+          <th>Cor</th>
+        </tr>
+      </thead>
+      <tbody data-js="car-table"></tbody>
+    </table>
 
+    <script src="./dom.js"></script>
     <script src="./challenge-29.js"></script>
   </body>
 </html>

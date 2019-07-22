@@ -10,12 +10,12 @@
   telefone (já vamos ver como isso vai ser feito) OK!
   - Ao abrir a tela, ainda não teremos carros cadastrados. Então deverá ter
   um formulário para cadastro do carro, com os seguintes campos:
-    - Imagem do carro (deverá aceitar uma URL)
-    - Marca / Modelo
-    - Ano
-    - Placa
-    - Cor
-    - e um botão "Cadastrar"
+    - Imagem do carro (deverá aceitar uma URL) OK!
+    - Marca / Modelo OK!
+    - Ano OK!
+    - Placa OK!
+    - Cor OK!
+    - e um botão "Cadastrar" OK!
 
   Logo abaixo do formulário, deverá ter uma tabela que irá mostrar todos os
   carros cadastrados. Ao clicar no botão de cadastrar, o novo carro deverá
@@ -38,9 +38,12 @@
 
   function app() {
 
+    var url_base = './company.json';
+    var inputs = [];
+
+    // Header
     var $companyName = document.querySelector('[data-js="company-name"]');
     var $companyPhone = document.querySelector('[data-js="company-phone"]');
-    var url_base = './company.json';
 
     // Inputs
     var $inputImagem = document.querySelector('[data-js="input-url-image"]');
@@ -52,13 +55,15 @@
     // Button
     var $btnCadastrar = document.querySelector('[data-js="btn-cadastrar"]');
 
+    // Table
+    var $carTable = document.querySelector('[data-js="car-table"]');
+
     function getCompanyData() {
-      var ajax = new XMLHttpRequest();
-      ajax.open('GET', url_base);
-      ajax.send();
+      var method = 'GET';
+      var ajax = createAjaxRequest(method, url_base);
 
       ajax.addEventListener('readystatechange', function() {
-        if (ajax.status === 200 && ajax.readyState === 4) {
+        if (hasRequestSuccessful(ajax)) {
           var data = JSON.parse(ajax.responseText);
           $companyName.textContent = data.name;
           $companyPhone.textContent = data.phone;
@@ -66,10 +71,46 @@
       });
     }
 
+    function createAjaxRequest(method, url) {
+      var ajax = new XMLHttpRequest();
+      ajax.open(method, url);
+      ajax.send();
+
+      return ajax;
+    }
+
+    function hasRequestSuccessful(ajaxRequest) {
+      return ajaxRequest.status === 200 && ajaxRequest.readyState === 4;
+    }
+
+    function createTableData(dataValue, tableRow) {
+      var newTableData = document.createElement('td');
+      newTableData.textContent = dataValue;
+      tableRow.appendChild(newTableData);
+    }
+
+    function handleClickCadastrar() {
+      $btnCadastrar.addEventListener('click', () => {
+        event.preventDefault();
+
+        // Criar linha de Dados para colocar  na tabela
+        var $newTableRow = document.createElement('tr');
+
+        // Criar campos de dados e obter dados dos inputs
+        createTableData($inputImagem.value, $newTableRow);
+        createTableData($inputMarcaModelo.value, $newTableRow);
+        createTableData($inputAno.value, $newTableRow);
+        createTableData($inputPlaca.value, $newTableRow);
+        createTableData($inputCor.value, $newTableRow);
+
+        // Adicionar na table a linha nova
+        $carTable.appendChild($newTableRow);
+      }, false);
+    }
+
     return (
-      console.log($companyName),
-      console.log($companyPhone),
-      getCompanyData()
+      getCompanyData(),
+      handleClickCadastrar()
     )
   }
 

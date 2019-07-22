@@ -1,5 +1,11 @@
-(function() {
+(function(win, doc) {
     "use strict";
+      
+    function DOM(elements) {
+      if (!(this instanceof DOM)) return new DOM(elements);
+      
+      this.element = this.getDOMElements(elements);
+    }
   
     DOM.is = function is(obj) {
       return Object.prototype.toString.call(obj);
@@ -35,10 +41,6 @@
       );
     };
   
-    function DOM(elements) {
-      this.element = document.querySelectorAll(elements);
-    }
-  
     DOM.prototype.on = function on(event, callback) {
       Array.prototype.forEach.call(this.element, function(element) {
         element.addEventListener(event, callback, false);
@@ -52,7 +54,7 @@
     };
   
     DOM.prototype.get = function get() {
-      return this.element;
+      return this.element[0];
     };
   
     DOM.prototype.forEach = function forEach() {
@@ -82,7 +84,12 @@
     DOM.prototype.some = function some() {
       Array.prototype.some.apply(this.element, arguments);
     };
+
+    DOM.prototype.getDOMElements = function getDOMElements(elements) {
+      return doc.querySelectorAll(elements);
+    };
   
-    window.DOM = DOM;
-  })();
+    win.DOM = DOM;
+
+  })(window, document);
   
