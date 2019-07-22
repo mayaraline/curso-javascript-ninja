@@ -1,5 +1,5 @@
-(function() {
-  'use strict';
+(function(DOM) {
+  "use strict";
 
   /*
   Vamos estruturar um pequeno app utilizando módulos.
@@ -37,38 +37,49 @@
   */
 
   function app() {
-
-    var url_base = './company.json';
-    var inputs = [];
+    var url_base = "./company.json";
 
     // Header
-    var $companyName = document.querySelector('[data-js="company-name"]');
-    var $companyPhone = document.querySelector('[data-js="company-phone"]');
+    var $companyName = DOM('[data-js="company-name"]').get();
+    var $companyPhone = DOM('[data-js="company-phone"]').get();
 
     // Inputs
-    var $inputImagem = document.querySelector('[data-js="input-url-image"]');
-    var $inputMarcaModelo = document.querySelector('[data-js="input-marca-modelo"]');
-    var $inputAno = document.querySelector('[data-js="input-ano"]');
-    var $inputPlaca = document.querySelector('[data-js="input-placa"]');
-    var $inputCor = document.querySelector('[data-js="input-cor"]');
+    var inputs = [];
+    var $inputImagem = DOM('[data-js="input-url-image"]').get();
+    var $inputMarcaModelo = DOM('[data-js="input-marca-modelo"]').get();
+    var $inputAno = DOM('[data-js="input-ano"]').get();
+    var $inputPlaca = DOM('[data-js="input-placa"]').get();
+    var $inputCor = DOM('[data-js="input-cor"]').get();
+
+    inputs.push($inputImagem);
+    inputs.push($inputMarcaModelo);
+    inputs.push($inputAno);
+    inputs.push($inputPlaca);
+    inputs.push($inputCor);
 
     // Button
-    var $btnCadastrar = document.querySelector('[data-js="btn-cadastrar"]');
+    var $btnCadastrar = DOM('[data-js="btn-cadastrar"]').on(
+      "click",
+      handleClickCadastrar,
+      false
+    );
 
     // Table
-    var $carTable = document.querySelector('[data-js="car-table"]');
+    var $carTable = DOM('[data-js="car-table"]').get();
 
     function getCompanyData() {
-      var method = 'GET';
+      var method = "GET";
       var ajax = createAjaxRequest(method, url_base);
 
-      ajax.addEventListener('readystatechange', function() {
-        if (hasRequestSuccessful(ajax)) {
-          var data = JSON.parse(ajax.responseText);
-          $companyName.textContent = data.name;
-          $companyPhone.textContent = data.phone;
-        }
-      });
+      ajax.addEventListener("readystatechange", setCompanyData, false);
+    }
+
+    function setCompanyData() {
+      if (hasRequestSuccessful(this)) {
+        var data = JSON.parse(this.responseText);
+        $companyName.textContent = data.name;
+        $companyPhone.textContent = data.phone;
+      }
     }
 
     function createAjaxRequest(method, url) {
@@ -84,37 +95,30 @@
     }
 
     function createTableData(dataValue, tableRow) {
-      var newTableData = document.createElement('td');
+      var newTableData = document.createElement("td");
       newTableData.textContent = dataValue;
       tableRow.appendChild(newTableData);
     }
 
     function handleClickCadastrar() {
-      $btnCadastrar.addEventListener('click', () => {
-        event.preventDefault();
+      event.preventDefault();
 
-        // Criar linha de Dados para colocar  na tabela
-        var $newTableRow = document.createElement('tr');
+      // Criar linha de Dados para colocar  na tabela
+      var $newTableRow = document.createElement("tr");
 
-        // Criar campos de dados e obter dados dos inputs
-        createTableData($inputImagem.value, $newTableRow);
-        createTableData($inputMarcaModelo.value, $newTableRow);
-        createTableData($inputAno.value, $newTableRow);
-        createTableData($inputPlaca.value, $newTableRow);
-        createTableData($inputCor.value, $newTableRow);
+      // Criar campos de dados e obter dados dos inputs
+      inputs.forEach(function(input) {
+        createTableData(input.value, $newTableRow);
+      });
 
-        // Adicionar na table a linha nova
-        $carTable.appendChild($newTableRow);
-      }, false);
+      // Adicionar na table a linha nova
+      $carTable.appendChild($newTableRow);
     }
 
-    return (
-      getCompanyData(),
-      handleClickCadastrar()
-    )
+    return getCompanyData();
+    // handleClickCadastrar()
   }
 
   window.app = app;
-
-})();
+})(window.DOM);
 window.app();
