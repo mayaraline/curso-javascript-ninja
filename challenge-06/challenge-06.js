@@ -92,9 +92,9 @@ var convertToHex = function(cor){
             hexa = '#A020F0';
         break;
         default:
-            console.log(`Não temos o equivalente hexadecimal para ${cor}.`)
+            return `Não temos o equivalente hexadecimal para ${cor}.`
     }
-    return console.log(`O hexadecimal para a cor ${cor} é ${hexa}.`);
+    return `O hexadecimal para a cor ${cor} é ${hexa}.`;
 
 }
 
