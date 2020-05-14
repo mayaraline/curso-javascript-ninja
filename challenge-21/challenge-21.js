@@ -16,6 +16,8 @@ dado ao elemento HTML deve definir o que o elemento é ou o que ele faz.
 */
 
 (function(document, window){
+
+    'use strict';
     
     var $inputTimer = document.querySelector('[data-js=timer]');
     var $buttonStart  = document.querySelector('[data-js=start]');
@@ -23,7 +25,7 @@ dado ao elemento HTML deve definir o que o elemento é ou o que ele faz.
     var $buttonReset  = document.querySelector('[data-js=reset]');
     var cronometro;
     var counter;
-    $inputTimer.value = 0;
+    //$inputTimer.value = 0;
 
 
     $buttonStart.addEventListener('click', function() {
