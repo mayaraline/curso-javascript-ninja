@@ -16,7 +16,8 @@ var $buttonsOperations = document.querySelectorAll('[data-js="button-operation"]
 var $buttonCE = document.querySelector('[data-js="button-ce"]');
 var $buttonEqual = document.querySelector('[data-js="button-equal"]');
 
-Array.prototype.forEach.call($buttonsNumbers, function(button) {
+(function buttonEventsInit(){
+  Array.prototype.forEach.call($buttonsNumbers, function(button) {
   button.addEventListener('click', handleClickNumber, false);
 });
 Array.prototype.forEach.call($buttonsOperations, function(button) {
@@ -24,6 +25,8 @@ Array.prototype.forEach.call($buttonsOperations, function(button) {
 });
 $buttonCE.addEventListener('click', handleClickCE, false);
 $buttonEqual.addEventListener('click', handleClickEqual, false);
+
+})();
 
 function handleClickNumber() {
   $visor.value += this.value;
@@ -56,20 +59,55 @@ function removeLastItemIfItIsAnOperator(number) {
 function handleClickEqual() {
   $visor.value = removeLastItemIfItIsAnOperator($visor.value);
   var allValues = $visor.value.match(/\d+[+x÷-]?/g);
-  $visor.value = allValues.reduce(function(accumulated, actual) {
-    var firstValue = accumulated.slice(0, -1);
-    var operator = accumulated.split('').pop();
+  $visor.value = allValues.reduce(serieCalculation);
+
+}
+function serieCalculation(accumulated, actual) {
+    var firstValue = removeCaracter(accumulated);
+    var operator = getLastCaracter(accumulated);
     var lastValue = removeLastItemIfItIsAnOperator(actual);
-    var lastOperator = isLastItemAnOperation(actual) ? actual.split('').pop() : '';
-    switch(operator) {
-      case '+':
-        return ( Number(firstValue) + Number(lastValue) ) + lastOperator;
-      case '-':
-        return ( Number(firstValue) - Number(lastValue) ) + lastOperator;
-      case 'x':
-        return ( Number(firstValue) * Number(lastValue) ) + lastOperator;
-      case '÷':
-        return ( Number(firstValue) / Number(lastValue) ) + lastOperator;
-    }
-  });
+    var lastOperator = isLastItemAnOperation(actual) ? getLastCaracter(actual) : "";
+}
+
+function getLastCaracter(string){
+  return actual.split('').pop();
+}
+
+function removeCaracter(string){
+  return accumulated.slice(0, -1);
+}
+
+function getLastCaracter(string){
+  accumulated.split('').pop();
+}
+
+//operations
+
+function sum(a, b){
+  return a + b;
+}
+
+function sub(a, b){
+  return a - b;
+}
+
+function mult(a, b){
+  return a * b;
+}
+
+function div(a, b){
+  return a / b;
+}
+
+function executeOp(operator, a, b){
+  switch (operator) {
+    case "+":
+      return sum(num1, num2);
+    case "-":
+      return sub(num1, num2);
+    case "x":
+      return mul(num1, num2);
+    case "÷":
+      return div(num1, num2);
+  }
 }
