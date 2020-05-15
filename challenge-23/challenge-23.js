@@ -23,3 +23,94 @@ multiplicação (x), então no input deve aparecer "1+2x".
 input;
 - Ao pressionar o botão "CE", o input deve ficar zerado.
 */
+
+(function(document, window){
+
+  var $inputCalculator = document.querySelector("[data-js=calculator]");
+  var $btNumber = document.querySelectorAll("[data-js=btNumber]");
+  var $btOp = document.querySelectorAll('[data-js="btOp"]');
+  var $equal = document.querySelector('[data-js="equal"]');
+  var $reset = document.querySelector('[data-js="reset"]');
+
+
+  $btNumber.forEach(function(item) {
+    item.addEventListener("click", clickNumber, false);
+  });
+
+  function clickNumber() {
+    if ($inputCalculator.value == 0) {
+      $inputCalculator.value = this.value;
+    } else {
+      $inputCalculator.value += this.value;
+    }
+  }
+
+  $btOp.forEach(function(item) {
+    item.addEventListener("click", clickOperation, false);
+  });
+
+  function clickOperation() {
+    if (!!lastItemIsAnOperator()) {
+      $inputCalculator.value = removeOperator($inputCalculator.value);
+    }
+    $inputCalculator.value += this.value;
+  }
+
+  $reset.addEventListener("click", clickReset, false);
+
+  function clickReset() {
+    $inputCalculator.value = 0;
+  }
+
+  $equal.addEventListener("click", clickEqual, false);
+
+  function clickEqual() {
+    var regexp = /(\d+)[+\-x÷/]?/g;
+    var operationRegex = /[+\-x÷]/g;
+    var numberRegex = /(\d+)/g;
+    var values = $inputCalculator.value.match(regexp);
+
+    console.log('Values: ', values);
+    console.log('Tamanho Values: ', values.length);
+    var lastItem = values[values.length - 1];
+
+    console.log('Match: ', !!lastItem.match(operationRegex));
+
+    if (!!lastItem.match(operationRegex)){
+      values[values.length - 1] = removeOperator(lastItem);
+    }
+
+    $inputCalculator.value = values.reduce(function(previous, actual) {
+
+      var firstOperator = previous.match(operationRegex)[0];
+      var lastOperator = !!actual.match(operationRegex) ? actual.match(operationRegex)[0] : "";
+      var firstNumber = previous.match(numberRegex);
+      var secondNumber = actual.match(numberRegex);
+
+      switch (firstOperator) {
+        case "+":
+          return (Number(firstNumber) + Number(secondNumber)) + lastOperator;
+        case "-":
+          return (Number(firstNumber) - Number(secondNumber)) + lastOperator;
+        case "x":
+					return (Number(firstNumber) * Number(secondNumber)) + lastOperator;
+				case "÷":
+          return (Number(firstNumber) / Number(secondNumber)) + lastOperator;
+      }
+    });
+  }
+
+  function removeOperator(string) {
+    return string.slice(0, string.length - 1);
+  }
+
+  function lastItemIsAnOperator() {
+    var lastItem = $inputCalculator.value.substring(
+      $inputCalculator.value.length - 1,
+      $inputCalculator.value.length
+    );
+    var regex = /\D/gim;
+    return !!lastItem.match(regex);
+  }
+
+})(document, window);
