@@ -48,31 +48,31 @@ return this.element;
 //metodos
 
 DOM.prototype.forEach = function forEach(callback){
-  Array.prototype.forEach.call(event, callback);
+  Array.prototype.forEach.apply(event, callback);
 }
 
 DOM.prototype.map = function map(callback){
-  Array.prototype.map.call(event, callback);
+  Array.prototype.map.apply(event, callback);
 }
 
 DOM.prototype.filter = function filter(callback){
-  Array.prototype.filter.call(event, callback);
+  Array.prototype.filter.apply(event, callback);
 }
 
 DOM.prototype.reduce = function reduce(callback){
-  Array.prototype.reduce.call(event, callback);
+  Array.prototype.reduce.apply(event, callback);
 }
 
 DOM.prototype.reduceRight = function reduceRight(callback){
-  Array.prototype.reduceRight.call(event, callback);
+  Array.prototype.reduceRight.apply(event, callback);
 }
 
 DOM.prototype.every = function every(callback){
-  Array.prototype.every.call(event, callback);
+  Array.prototype.every.apply(event, callback);
 }
 
 DOM.prototype.some = function some(callback){
-  Array.prototype.some.call(event, callback);
+  Array.prototype.some.apply(event, callback);
 }
 
 //
