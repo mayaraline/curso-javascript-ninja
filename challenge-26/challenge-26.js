@@ -19,7 +19,6 @@ selecionados.
 Dica: olhe os erros que acontecem no console, e vá resolvendo um a um.
 Só passe para o próximo problema quando tiver resolvido o anterior :)
 */
-// ?
 
 (function(document, window){
 
@@ -47,9 +46,10 @@ return this.element;
 
 
 var $a = new DOM('[data-js="link"]');
-$a.on('click', function(e) {
+$a.on('click', function handleClick(e) {
   e.preventDefault();
   console.log('clicou');
+  $a.off('click', handleClick)
 });
 
 console.log('Elementos selecionados:', $a.get());
