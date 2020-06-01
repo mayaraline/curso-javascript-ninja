@@ -11,7 +11,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/', function(req, res) {
+app.get('/localhost:80', function(req, res) {
   res.json({ message: 'hi' });
 });
 
